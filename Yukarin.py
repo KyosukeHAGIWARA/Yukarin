@@ -4,6 +4,7 @@
 import sys
 from bs4 import BeautifulSoup
 import urllib.request
+import json
 
 
 def gen_image_url_list(url):
@@ -25,8 +26,15 @@ def gen_image_url_list(url):
     return ans, url_dict
 
 if __name__ == '__main__':
-   url = sys.argv[1]
-   ans, url_dict = gen_image_url_list(url)
+   url = sys.argv[1].replace("\\", "")
+   urls = json.loads(url)
+   ans = []
+   url_dict = {}
+   for u in urls:
+       one_ans, one_url_dict = gen_image_url_list(u)
+       ans += one_ans
+       url_dict.update(one_url_dict)
+
    html_top = '''
     <!DOCTYPE html>
     <html>
